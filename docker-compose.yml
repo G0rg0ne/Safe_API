@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "443:443"
+    restart: unless-stopped
+    container_name: fastapi-app
+    volumes:
+      - ./certs:/app/certs:ro  # Mount SSL certificates (read-only)
+    environment:
+      - SSL_KEYFILE=/app/certs/key.pem
+      - SSL_CERTFILE=/app/certs/cert.pem
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:443/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
