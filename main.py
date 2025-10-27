@@ -9,7 +9,7 @@ app = FastAPI(title="Safe API", version="1.0.0")
 
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["localhost", "127.0.0.1", "0.0.0.0"]
+    allowed_hosts=["*"]
 )
 
 @app.get("/ping")

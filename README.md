@@ -105,6 +105,56 @@ docker stop <container_id>
 - Docker
 - Docker Compose (optional, for docker-compose commands)
 
+## Deployment on Hetzner Server
+
+### Quick Deploy
+
+To deploy on your Hetzner server:
+
+```bash
+# Make the script executable (if needed)
+chmod +x deploy.sh
+
+# Run the deployment script
+./deploy.sh
+```
+
+This script will:
+- Generate SSL certificates (self-signed) if they don't exist
+- Build the Docker container
+- Start the application with Docker Compose
+- Check if the service is running properly
+
+### Making Requests from Your Local Machine
+
+Once deployed, you can make requests from your local machine:
+
+```bash
+# Get your Hetzner server IP
+# Then use curl with -k flag to accept the self-signed certificate
+curl -k https://YOUR_SERVER_IP:443/ping
+curl -k https://YOUR_SERVER_IP:443/health
+```
+
+### Alternative: Using Let's Encrypt Certificates
+
+For production use with a domain, consider using Let's Encrypt:
+
+```bash
+# Install certbot
+sudo apt-get update
+sudo apt-get install -y certbot
+
+# Generate certificates for your domain
+sudo certbot certonly --standalone -d your-domain.com
+
+# Copy certificates to the certs folder
+sudo cp /etc/letsencrypt/live/your-domain.com/fullchain.pem certs/cert.pem
+sudo cp /etc/letsencrypt/live/your-domain.com/privkey.pem certs/key.pem
+sudo chmod 644 certs/cert.pem
+sudo chmod 600 certs/key.pem
+```
+
 ## Port Considerations
 
 **Note:** Port 443 typically requires administrative privileges on most systems. If you encounter permission issues, you can:
