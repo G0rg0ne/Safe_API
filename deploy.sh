@@ -43,14 +43,6 @@ sleep 5
 # Check if the service is running
 if docker-compose ps | grep -q "fastapi-app.*Up"; then
     echo "✅ Deployment successful!"
-    echo ""
-    echo "Your API is now running on:"
-    echo "  - HTTPS: https://localhost:443"
-    echo "  - Health: https://localhost:443/health"
-    echo "  - Ping: https://localhost:443/ping"
-    echo ""
-    echo "To view logs: docker-compose logs -f"
-    echo "To stop: docker-compose down"
 else
     echo "❌ Deployment failed. Check logs with: docker-compose logs"
     exit 1
